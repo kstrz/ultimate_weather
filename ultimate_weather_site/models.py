@@ -12,7 +12,7 @@ class Service(models.Model):
 
 class Temperatures(models.Model):
     service_id = models.ForeignKey(Service)
-    date = models.TimeField()
+    date = models.DateField()
     h_01 = models.IntegerField(default=None)
     h_02 = models.IntegerField(default=None)
     h_03 = models.IntegerField(default=None)

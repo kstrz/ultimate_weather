@@ -1,6 +1,49 @@
+body {
+	background-color: black;
+}
+header {
+  background: url(img/tlo.jpg) center center;
+  min-height:300px;
+  padding: 100px 0;
+  color: white;
+  text-shadow: 1px 1px 0 #000000;
+}
+header h1 {
+  margin: 100px 0 10px;
+}
+header a {
+   color: white;
+  text-shadow: none;
+}
+.btn-custom {
+  background: #fc0;
+  color: white;
+  padding: 10px 20px;
+  box-shadow: 0 3px 0 #f93;
+  text-transform: uppercase;	
+}
+
+
+.main-content {
+  padding: 100px 0;
+}
+
+footer {
+  padding: 50px 0;
+   color: white;
+}
+
+.hidden{
+	display: none !important;
+}
+
+.button:hover{
+	cursor: pointer;
+}
+
 .main_table{
-    font-size: 20px;
-    margin: auto
+    font-size: 10px;
+    margin: auto;
 }
 
 td{
