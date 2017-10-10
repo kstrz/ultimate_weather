@@ -7,19 +7,37 @@ import sys
 # Create your views here.
 
 
-def index(reqest):
+def index(reqest, date=None):
+
+    if not date:
+        date = datetime.date.today()
+    else:
+        date = datetime.date(*(int(x) for x in (date.split('-'))))
+
     services = Service.objects.all()
     temp_dict = {}
+
+
     for service in services:
         try:
-            today_temps = Temperatures.objects.filter(service_id=service.pk, date=datetime.date.today()).first()
+            today_temps = Temperatures.objects.filter(service_id=service.pk, date=date).first()
             if today_temps:
                 temp_dict[service.name] = today_temps.getTemperatures()
         except ObjectDoesNotExist:
             pass
 
+    today = datetime.date.today()
+    ordinal_today = datetime.date.toordinal(today)
+    ordinal_day = ordinal_today
+    dates = []
+    for x in range(30):
+        dates.append(str(datetime.date.fromordinal(ordinal_day)))
+        ordinal_day -= 1
+
     context = {
-        'temp_dict': temp_dict
+        'temp_dict': temp_dict,
+        'dates': dates,
+        'current_date': str(date)
     }
     return render(reqest, 'ultimate_weather_site/index.html', context)
 

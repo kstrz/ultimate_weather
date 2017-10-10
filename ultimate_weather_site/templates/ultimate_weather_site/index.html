@@ -15,31 +15,56 @@
 	
 
 	
-	<nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-		 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" onclick="showMain()" style="cursor: pointer;">Pszczoły</a>
-        </div>
+{#	<nav class="navbar navbar-inverse navbar-fixed-top">#}
+{#      <div class="container">#}
+{#        <div class="navbar-header">#}
+{#		 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">#}
+{#            <span class="sr-only">Toggle navigation</span>#}
+{#            <span class="icon-bar"></span>#}
+{#            <span class="icon-bar"></span>#}
+{#            <span class="icon-bar"></span>#}
+{#          </button>#}
+{#          <a class="navbar-brand" onclick="showMain()" style="cursor: pointer;">Pszczoły</a>#}
+{#        </div>#}
 
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav" >
-            <li><a class="button"  onclick="show1()" >1 pszczoła</a></li>
-            <li><a class="button" onclick="show2()" >2 pszczoły</a></li>
-            <li><a class="button" onclick="show3()">3 pszczoły</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+          <div class="dropdown">
+              <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Temperatury
+              <span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                  {% if dates %}
+                      {% for date in dates %}
+                          <li><a href="/ultimateweather/{{  date }}">{{  date }}</a></li>
+                      {% endfor %}
+                  {% endif %}
+              </ul>
+          </div>
+{#          <nav class="navbar navbar-inverse">#}
+{#              <ul class="nav navbar-nav">#}
+{#                  #}
+{#              </ul>#}
+{#            <p class="navbar-text">Some text</p>#}
+{#          </nav>#}
+{#        <div id="navbar" class="navbar-collapse collapse">#}
+{#          <ul class="nav navbar-nav" >#}
+{#              {% if dates %}#}
+{#                  {% for date in dates %}#}
+{#                      <li><a class="button"  onclick="show1()" >1 pszczoła</a></li>#}
+{#                  {% endfor %}#}
+{#              {% endif %}#}
+{#            <li><a class="button"  onclick="show1()" >1 pszczoła</a></li>#}
+{#            <li><a class="button" onclick="show2()" >2 pszczoły</a></li>#}
+{#            <li><a class="button" onclick="show3()">3 pszczoły</a></li>#}
+{#          </ul>#}
+{#        </div>#}
+{#      </div>#}
+{#    </nav>#}
 
 
  <header class="header" id="top">
-        <h1>Ultimate weather</h1>
+        {% if current_date %}
+            <h1>{{ current_date }}</h1>
+        {% endif %}
+
 
           <div class="text-vertical-center">
 
