@@ -33,7 +33,7 @@
               <ul class="dropdown-menu">
                   {% if dates %}
                       {% for date in dates %}
-                          <li><a href="/ultimateweather/{{  date }}">{{  date }}</a></li>
+                          <li><a href="/{{  date }}">{{  date }}</a></li>
                       {% endfor %}
                   {% endif %}
               </ul>
@@ -106,7 +106,7 @@
 
 
             {% else %}
-                <p>No weather. No future.</p>
+                <p>No weather today.</p>
             {% endif %}
 
 

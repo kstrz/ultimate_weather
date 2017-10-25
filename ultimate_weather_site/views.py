@@ -3,14 +3,17 @@ from django.shortcuts import render
 from django.views import generic
 from .models import *
 import datetime
+import numpy as np
 import sys
 # Create your views here.
 
+HISTORY_DAYS = 30
 
-def index(reqest, date=None):
-
+def index(request, date=None):
+    
+    today = datetime.date.today()
     if not date:
-        date = datetime.date.today()
+        date = today
     else:
         date = datetime.date(*(int(x) for x in (date.split('-'))))
 
@@ -26,11 +29,11 @@ def index(reqest, date=None):
         except ObjectDoesNotExist:
             pass
 
-    today = datetime.date.today()
+    
     ordinal_today = datetime.date.toordinal(today)
     ordinal_day = ordinal_today
     dates = []
-    for x in range(30):
+    for x in range(HISTORY_DAYS):
         dates.append(str(datetime.date.fromordinal(ordinal_day)))
         ordinal_day -= 1
 
@@ -39,7 +42,21 @@ def index(reqest, date=None):
         'dates': dates,
         'current_date': str(date)
     }
-    return render(reqest, 'ultimate_weather_site/index.html', context)
+    return render(request, 'ultimate_weather_site/index.html', context)
+
+
+def correctness(request):
+
+    services = Service.objects.all()
+
+    services_temps = {}
+
+    for service in services:
+        services_temps[service] = np.rshape(HISTORY_DAYS,24)
+        a = Temperatures.objects.filter(service_id=service.pk, )
+
+
+    return  render(request, 'ultimate_weather_site/correctness.html')
 
 
 class IndexView(generic.DetailView):

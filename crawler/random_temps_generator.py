@@ -1,5 +1,5 @@
 """generates random* temperatures for last 30 days. for tests
-run in virtual env: python ./manage.py shell < crawler/random_temps_generator.py.py
+run in virtual env: python ./manage.py shell < crawler/random_temps_generator.py
 """
 import datetime
 import random

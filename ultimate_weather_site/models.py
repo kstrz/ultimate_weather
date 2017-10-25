@@ -1,7 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
 
 class Service(models.Model):
     name = models.CharField(max_length=200)
@@ -38,8 +36,6 @@ class Temperatures(models.Model):
     h_23 = models.IntegerField(default=None)
     h_24 = models.IntegerField(default=None)
 
-    def __str__(self):
-        return str(self.h_01)
 
     def getTemperatures(self):
         return [self.h_01,
