@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html lang="pl">
+<head>
+    <link href="{% static 'ultimate_weather_site/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+    <meta charset="UTF-8">
+    <title>Statystyki</title>
+    <link rel="stylesheet" href="{% static 'ultimate_weather_site/style.css' %}" media="screen">
+
+</head>
+
+<body>
+<script src="{% static 'ultimate_weather_site/jquery-2.2.3.min.js' %}"></script>
+<script src="{% static 'ultimate_weather_site/bootstrap.min.js' %}"></script>
+
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">Ultimate weather</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="/">Temperatury
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        {% if dates %}
+                            {% for date in dates %}
+                                <li><a href="/{{ date }}">{{ date }}</a></li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+
+            </li>
+            <li> <a href="/statistics">Statystyki</a></li>
+
+        </ul>
+    </div>
+</nav>
+
+
+<header class="header" id="top">
+
+    {% if services_stats %}
+                <table class="table main_table" >
+                <th></th>
+                <th>Średnia różnica temperatur</th>
+                <th>Mediana</th>
+                <th>Dominanta</th>
+                <th>Odchylenie standardowe</th>
+                <th>Poprawność</th>
+                 {% for key, value in services_stats.items %}
+                    <tr><td>{{key}}</td>
+                    <td>{{value.avg_temp_diff}} &#176C</td>
+                    <td>{{value.median}}</td>
+                    <td>{{value.mode}}</td>
+                    <td>{{value.std}}</td>
+                    <td>{{value.correctness}}%</td>
+                    </tr>
+                {% endfor %}
+                </table>
+            {% else %}
+                <p>No stats.</p>
+    {% endif %}
+
+
+</header>
+
+
+</body>
+
+</html>

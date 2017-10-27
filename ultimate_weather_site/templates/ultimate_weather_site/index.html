@@ -2,19 +2,18 @@
 <!DOCTYPE HTML>
 <html lang="pl">
 <head>
-	<link href="{% static 'ultimate_weather_site/bootstrap.min.css' %}" rel="stylesheet" media="screen">
-	 <meta charset="UTF-8"> 
-	<title>Tytuł</title>
-	<link rel="stylesheet" href="{% static 'ultimate_weather_site/style.css' %}" media="screen">
+    <link href="{% static 'ultimate_weather_site/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+    <meta charset="UTF-8">
+    <title>Ultimate weather</title>
+    <link rel="stylesheet" href="{% static 'ultimate_weather_site/style.css' %}" media="screen">
 
 </head>
 
 <body>
-	<script src="{% static 'ultimate_weather_site/jquery-2.2.3.min.js' %}" ></script>
-	<script src="{% static 'ultimate_weather_site/bootstrap.min.js' %}"></script>
-	
+<script src="{% static 'ultimate_weather_site/jquery-2.2.3.min.js' %}"></script>
+<script src="{% static 'ultimate_weather_site/bootstrap.min.js' %}"></script>
 
-	
+
 {#	<nav class="navbar navbar-inverse navbar-fixed-top">#}
 {#      <div class="container">#}
 {#        <div class="navbar-header">#}
@@ -27,17 +26,48 @@
 {#          <a class="navbar-brand" onclick="showMain()" style="cursor: pointer;">Pszczoły</a>#}
 {#        </div>#}
 
-          <div class="dropdown">
-              <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Temperatury
-              <span class="caret"></span></button>
-              <ul class="dropdown-menu">
-                  {% if dates %}
-                      {% for date in dates %}
-                          <li><a href="/{{  date }}">{{  date }}</a></li>
-                      {% endfor %}
-                  {% endif %}
-              </ul>
-          </div>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">Ultimate weather</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="/">Temperatury
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        {% if dates %}
+                            {% for date in dates %}
+                                <li><a href="/{{ date }}">{{ date }}</a></li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+
+            </li>
+            <li> <a href="/statistics">Statystyki</a></li>
+
+        </ul>
+    </div>
+</nav>
+
+{#<nav class="navbar navbar-default">#}
+{#<ul>#}
+{#    <li><div class="dropdown">#}
+{#        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Temperatury#}
+{#            <span class="caret"></span></button>#}
+{#        <ul class="dropdown-menu">#}
+{#            {% if dates %}#}
+{#                {% for date in dates %}#}
+{#                    <li><a href="/{{ date }}">{{ date }}</a></li>#}
+{#                {% endfor %}#}
+{#            {% endif %}#}
+{#        </ul>#}
+{#    </div></li>#}
+{#   <li> <div>#}
+{#        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Statystyki</button>#}
+{#    </div></li>#}
+{#</ul>#}
+{#</nav>#}
 {#          <nav class="navbar navbar-inverse">#}
 {#              <ul class="nav navbar-nav">#}
 {#                  #}
@@ -60,16 +90,16 @@
 {#    </nav>#}
 
 
- <header class="header" id="top">
-        {% if current_date %}
-            <h1>{{ current_date }}</h1>
-        {% endif %}
+<header class="header" id="top">
+    {% if current_date %}
+        <h1>{{ current_date }}</h1>
+    {% endif %}
 
 
-          <div class="text-vertical-center">
+    <div class="text-vertical-center">
 
-            {% if temp_dict %}
-                <table class="table main_table" >
+        {% if temp_dict %}
+            <table class="table main_table">
                 <th></th>
                 <th>1</th>
                 <th>2</th>
@@ -95,25 +125,26 @@
                 <th>22</th>
                 <th>23</th>
                 <th>24</th>
-                 {% for key, value in temp_dict.items %}
-                    <tr><td>{{key}}</td>
+                {% for key, value in temp_dict.items %}
+                    <tr>
+                        <td>{{ key }}</td>
                         {% for temp in value %}
-                            <td>{{temp}}&#176C</td>
+                            <td>{{ temp }} &#176C</td>
                         {% endfor %}
                     </tr>
                 {% endfor %}
-                </table>
+            </table>
 
 
-            {% else %}
-                <p>No weather today.</p>
-            {% endif %}
+        {% else %}
+            <p>No weather today.</p>
+        {% endif %}
 
 
-       </div>
-      </header>
+    </div>
+</header>
 
-	
+
 </body>
 
 </html>

@@ -5,5 +5,5 @@ app_name = 'ultimate_weather_site'
 urlpatterns = [
     url(r'^$', index, name='index'),
     url(r'^(?P<date>.{4}-.{2}-.{2})$', index, name='index'),
-    url(r'^correctness$', correctness, name='correctness')
+    url(r'^statistics', statistics, name='statistics')
 ]
