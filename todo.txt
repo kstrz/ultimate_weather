@@ -1,3 +1,0 @@
--crawl data at 0.00 - 1.00 - refactor insert or put whole app into server
--crawl real temperatures
--show historical temps

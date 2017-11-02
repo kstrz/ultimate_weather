@@ -12,6 +12,7 @@ class Service(models.Model):
 class Temperatures(models.Model):
     service_id = models.ForeignKey(Service)
     date = models.DateField()
+    h_00 = models.IntegerField(default=None, null=True, blank=True)
     h_01 = models.IntegerField(default=None, null=True, blank=True)
     h_02 = models.IntegerField(default=None, null=True, blank=True)
     h_03 = models.IntegerField(default=None, null=True, blank=True)
@@ -35,11 +36,14 @@ class Temperatures(models.Model):
     h_21 = models.IntegerField(default=None, null=True, blank=True)
     h_22 = models.IntegerField(default=None, null=True, blank=True)
     h_23 = models.IntegerField(default=None, null=True, blank=True)
-    h_24 = models.IntegerField(default=None, null=True, blank=True)
 
+
+    class Meta:
+        unique_together = ('service_id', 'date')
 
     def get_temperatures(self):
-        return [self.h_01,
+        return [self.h_00,
+                self.h_01,
                 self.h_02,
                 self.h_03,
                 self.h_04,
@@ -61,5 +65,4 @@ class Temperatures(models.Model):
                 self.h_20,
                 self.h_21,
                 self.h_22,
-                self.h_23,
-                self.h_24]
+                self.h_23]

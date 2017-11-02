@@ -1,6 +1,10 @@
 """generates random* temperatures for last 30 days. for tests
 run in virtual env: python ./manage.py shell < crawler/random_temps_generator.py
 """
+import os
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ultimate_weather.settings")
+import django
+django.setup()
 import datetime
 import random
 from crawler.services.pogoda_interia import PogodaInteria
@@ -52,3 +56,8 @@ for service in services:
 
         temps.save()
         ordinal_day -= 1
+
+
+# a = Temperatures.objects.all()
+# for b in a:
+#     b.delete()

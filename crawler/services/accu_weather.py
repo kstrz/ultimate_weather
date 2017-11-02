@@ -2,6 +2,7 @@ import requests
 import re
 from bs4 import BeautifulSoup
 from crawler.super_crawler import SuperCrawler
+import lxml
 
 class AccuWeather(SuperCrawler):
 
@@ -10,32 +11,30 @@ class AccuWeather(SuperCrawler):
         self.name = 'accu_weather'
 
     def get_temperatures(self):
+        self.response = requests.get('https://www.accuweather.com/pl/pl/warsaw/274663/hourly-weather-forecast/274663')
+        self.soup = BeautifulSoup(self.response.text, 'lxml')
 
-        response = requests.get('https://www.accuweather.com/pl/pl/warsaw/274663/hourly-weather-forecast/274663')
-        soup = BeautifulSoup(response.text)
-        temps_table = soup.find('div', class_='overview-hourly').table.tbody
-        temps_row = temps_table.find('tr')
-        temperatures = [tag.text for tag in temps_row('span')]
+        self.temperatures = []
+        self.hours = []
+        # table shows 8 hours at once
+        for _ in range(3):
+            self._get_temperatures()
+            self._get_hours()
+            self._get_next_hours()
 
-        next_hours_url = soup.find('div', class_='hourly-control').a['href']
+        return list(zip(self.hours, self.temperatures))
 
-        response = requests.get(next_hours_url)
-        soup = BeautifulSoup(response.text)
-        temps_table = soup.find('div', class_='overview-hourly').table.tbody
-        temps_row = temps_table.find('tr')
-        temperatures.extend([tag.text for tag in temps_row('span')])
+    def _get_temperatures(self):
+        self.temps_table = self.soup.find('div', class_='overview-hourly').table
+        temps_row = self.temps_table.find('tbody').find('tr')
+        self.temperatures.extend([ re.findall('\d+', tag.text)[0] for tag in temps_row('span')])
 
-        next_hours_url = soup.find('div', class_='hourly-control').a['href']
+    def _get_hours(self):
+        tr_tag = self.temps_table.find('thead').find('tr')
+        self.hours.extend([td_tag.find('div').text for td_tag in tr_tag('td')])
 
-        response = requests.get(next_hours_url)
-        soup = BeautifulSoup(response.text)
-        temps_table = soup.find('div', class_='overview-hourly').table.tbody
-        temps_row = temps_table.find('tr')
-        temperatures.extend([tag.text for tag in temps_row('span')])
-
-        temps = []
-        for temp in temperatures:
-            temps.append(re.findall('\d+', temp)[0])
-        return temps
-
+    def _get_next_hours(self):
+        self.next_hours_url = self.soup.find('div', class_='hourly-control').find('a', class_='right-float')['href']
+        self.response = requests.get(self.next_hours_url)
+        self.soup = BeautifulSoup(self.response.text, 'lxml')
 

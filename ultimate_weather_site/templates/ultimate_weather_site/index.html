@@ -33,18 +33,18 @@
         </div>
         <ul class="nav navbar-nav">
             <li>
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="/">Temperatury
-                        <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        {% if dates %}
-                            {% for date in dates %}
-                                <li><a href="/{{ date }}">{{ date }}</a></li>
-                            {% endfor %}
-                        {% endif %}
-                    </ul>
+                <a class="dropdown-toggle" data-toggle="dropdown" href="/">Temperatury
+                    <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    {% if dates %}
+                        {% for date in dates %}
+                            <li><a href="/{{ date }}">{{ date }}</a></li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
 
             </li>
-            <li> <a href="/statistics">Statystyki</a></li>
+            <li><a href="/statistics">Statystyki</a></li>
 
         </ul>
     </div>
@@ -101,6 +101,7 @@
         {% if temp_dict %}
             <table class="table main_table">
                 <th></th>
+                <th>0</th>
                 <th>1</th>
                 <th>2</th>
                 <th>3</th>
@@ -124,12 +125,17 @@
                 <th>21</th>
                 <th>22</th>
                 <th>23</th>
-                <th>24</th>
-                {% for key, value in temp_dict.items %}
+                {% for service_name, temperatures_with_values in temp_dict.items %}
                     <tr>
-                        <td>{{ key }}</td>
-                        {% for temp in value %}
-                            <td>{{ temp }} &#176C</td>
+                        {% if service_name == 'Actual' %}
+                            <td>{{ 'Rzeczywiste temperatury' }}</td>
+                        {% else %}
+                            <td>{{ service_name }}</td>
+                        {% endif %}
+                        {% for temp_with_value in temperatures_with_values %}
+                            {% for temp, value in temp_with_value.items %}
+                                <td style="color: {{ value }}">{{ temp }} {% if temp != '-' %} &#176C {% endif %} </td>
+                            {% endfor %}
                         {% endfor %}
                     </tr>
                 {% endfor %}
