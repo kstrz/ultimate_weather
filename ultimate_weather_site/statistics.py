@@ -7,7 +7,7 @@ class Statistics:
         service_temps_flat = service_temps.flatten()
         real_temps_flat = real_temps.flatten()
         self.diff_array = []
-        for x in range(len(service_temps)):
+        for x in range(len(service_temps_flat)):
             if service_temps_flat[x] != -300 and real_temps_flat[x] != -300:
                 self.diff_array.append(abs(service_temps_flat[x] - real_temps_flat[x]))
 

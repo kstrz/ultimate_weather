@@ -101,3 +101,7 @@ ENV/
 
 # pyCharm
 .idea
+
+#myFiles
+db.sqlite3
+secret_key.txt

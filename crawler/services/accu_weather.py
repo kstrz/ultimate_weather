@@ -11,7 +11,18 @@ class AccuWeather(SuperCrawler):
         self.name = 'accu_weather'
 
     def get_temperatures(self):
-        self.response = requests.get('https://www.accuweather.com/pl/pl/warsaw/274663/hourly-weather-forecast/274663')
+        self.response = requests.get('https://www.accuweather.com/pl/pl/warsaw/274663/hourly-weather-forecast/274663',
+                                     headers={
+                                         'authority':'www.accuweather.com',
+                    'method':'GET',
+                    'path':'/pl/pl/warsaw/274663/hourly-weather-forecast/274663',
+                    'scheme':'https',
+                    'accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+                    'accept-encoding':'gzip, deflate, br',
+                    'accept-language':'pl-PL,pl;q=0.8,en-US;q=0.6,en;q=0.4',
+                    'upgrade-insecure-requests':'1',
+                    'user-agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.79 Safari/537.36'})
+
         self.soup = BeautifulSoup(self.response.text, 'lxml')
 
         self.temperatures = []
@@ -35,6 +46,14 @@ class AccuWeather(SuperCrawler):
 
     def _get_next_hours(self):
         self.next_hours_url = self.soup.find('div', class_='hourly-control').find('a', class_='right-float')['href']
-        self.response = requests.get(self.next_hours_url)
+        self.response = requests.get(self.next_hours_url, headers={
+                                         'authority':'www.accuweather.com',
+                    'method':'GET',
+                    'path':'/pl/pl/warsaw/274663/hourly-weather-forecast/274663',
+                    'scheme':'https',
+                    'accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+                    'accept-encoding':'gzip, deflate, br',
+                    'accept-language':'pl-PL,pl;q=0.8,en-US;q=0.6,en;q=0.4',
+                    'upgrade-insecure-requests':'1',
+                    'user-agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.79 Safari/537.36'})
         self.soup = BeautifulSoup(self.response.text, 'lxml')
-
