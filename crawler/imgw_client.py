@@ -19,6 +19,8 @@ def get_temperature():
         service = Service.objects.get(name='actual')
         date = datetime.strptime(warsaw_data['data_pomiaru'], '%Y-%m-%d')
         hour = warsaw_data['godzina_pomiaru']
+        if len(hour) == 1:
+            hour = '0' + hour
         temp = int(float(warsaw_data['temperatura']))
 
 

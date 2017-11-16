@@ -31,7 +31,7 @@ class Main:
     def _normalize_values(self):
         for i, hour_temp in enumerate(self.temperatures):
             if len(hour_temp[0]) == 1:
-                hour_temp[0] = '0' + hour_temp[0]
+                hour_temp = ('0' + hour_temp[0], hour_temp[1])
             self.temperatures[i] = (hour_temp[0], re.findall(r'\d+', str(hour_temp[1]))[0] if hour_temp[1] else None)
 
 
