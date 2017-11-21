@@ -103,6 +103,6 @@ ENV/
 .idea
 
 #myFiles
-db.sqlite3
+.db.sqlite3
 secret_key.txt
 env/
