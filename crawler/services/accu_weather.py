@@ -10,6 +10,9 @@ class AccuWeather(SuperCrawler):
         super().__init__()
         self.name = 'accu_weather'
 
+    def __str__(self):
+        return 'ACCU_WEATHER_SERVICE'
+
     def get_temperatures(self):
         self.response = requests.get('https://www.accuweather.com/pl/pl/warsaw/274663/hourly-weather-forecast/274663',
                                      headers={

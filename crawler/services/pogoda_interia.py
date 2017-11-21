@@ -8,6 +8,9 @@ class PogodaInteria(SuperCrawler):
         super().__init__()
         self.name = 'pogoda_interia'
 
+    def __str__(self):
+        return 'POGDA_INTERIA_SERVICE'
+
     def get_temperatures(self):
         response = requests.get('https://pogoda.interia.pl/prognoza-szczegolowa-warszawa,cId,8755')
         soup = BeautifulSoup(response.text, 'lxml')

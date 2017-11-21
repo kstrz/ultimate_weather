@@ -2,7 +2,7 @@ import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ultimate_weather.settings")
 import django
 django.setup()
-
+import logging
 from datetime import datetime
 from ultimate_weather_site.models import Temperatures, Service
 import requests
@@ -22,7 +22,7 @@ def get_temperature():
         if len(hour) == 1:
             hour = '0' + hour
         temp = int(float(warsaw_data['temperatura']))
-
+        logging.info('GOT ' + str(temp) + ' AT HOUR: ' + str(hour))
 
         temps = Temperatures.objects.filter(date=date, service_id=service.pk).first()
         if temps:
@@ -30,6 +30,7 @@ def get_temperature():
             if not value_for_current_hour:
                 setattr(temps, 'h_'+hour, temp)
                 temps.save()
+                logging.info('SAVED TEMP')
 
         else:
             temps = Temperatures()
@@ -37,3 +38,4 @@ def get_temperature():
             temps.date = date
             setattr(temps, 'h_'+hour, temp)
             temps.save()
+            logging.info('SAVED TEMP')

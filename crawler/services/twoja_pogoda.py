@@ -10,6 +10,9 @@ class TwojaPogoda(SuperCrawler):
         super().__init__()
         self.name = 'twoja_pogoda'
 
+    def __str__(self):
+        return 'TWOJA_POGODA_SERVICE'
+
     def get_temperatures(self):
         self.temps = []
         response = requests.get('http://data.twojapogoda.pl/forecasts/city/hourly/2333/1').text

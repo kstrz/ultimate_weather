@@ -105,3 +105,4 @@ ENV/
 #myFiles
 db.sqlite3
 secret_key.txt
+env/

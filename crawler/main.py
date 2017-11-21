@@ -1,9 +1,12 @@
 import os
 import re
+import logging
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ultimate_weather.settings")
 import django
 django.setup()
-import datetime
+
+from ultimate_weather_site import utils
 from crawler.services.pogoda_interia import PogodaInteria
 from crawler.services.twoja_pogoda import TwojaPogoda
 from crawler.services.pogoda_onet import PogodaOnet
@@ -19,34 +22,36 @@ class Main:
 
     def process(self):
         for service in self.services:
-            self.service = service
+            self.service = service()
+            logging.info('PROCESSING ' + str(self.service))
             self._get_temperatures()
             self._normalize_values()
-            self._save_temeretures()
+            self._save_temperatures()
 
     def _get_temperatures(self):
-        self.temperatures = self.service().get_temperatures()
-
+        self.temperatures = self.service.get_temperatures()
+        logging.info('GOT ' + str(len(self.temperatures)) + ' FROM ' + str(self.service))
 
     def _normalize_values(self):
+        logging.info('NORMALIZE ' + str(self.service))
         for i, hour_temp in enumerate(self.temperatures):
             if len(hour_temp[0]) == 1:
                 hour_temp = ('0' + hour_temp[0], hour_temp[1])
             self.temperatures[i] = (hour_temp[0], re.findall(r'\d+', str(hour_temp[1]))[0] if hour_temp[1] else None)
 
-
-    def _save_temeretures(self):
+    def _save_temperatures(self):
         temps = Temperatures()
-        temps.service_id = Service.objects.get(name=self.service().name)
+        temps.service_id = Service.objects.get(name=self.service.name)
 
         for hour_temp in self.temperatures:
             setattr(temps, 'h_' + hour_temp[0], hour_temp[1])
 
-        temps.date = datetime.datetime.today()
+        temps.date = utils.get_date()
         try:
             temps.save()
+            logging.info('SAVED ' + str(self.service))
         except Exception as e:
-            pass
+            logging.error('SAVE ERROR ' + str(self.service) + str(e))
 
         #every time updates object in db
         # temps_dict = {}

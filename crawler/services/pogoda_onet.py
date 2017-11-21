@@ -10,6 +10,9 @@ class PogodaOnet(SuperCrawler):
         super().__init__()
         self.name = 'pogoda_onet'
 
+    def __str__(self):
+        return 'POGODA_ONET_SERVICE'
+
     def get_temperatures(self):
         response = requests.get('https://pogoda.onet.pl/prognoza-pogody/warszawa-357732')
         soup = BeautifulSoup(response.text, 'lxml')

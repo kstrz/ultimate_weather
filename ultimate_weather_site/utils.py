@@ -2,13 +2,14 @@ from datetime import date, datetime
 from ultimate_weather_site.models import Service, Temperatures
 from ultimate_weather_site.statistics import Statistics
 import numpy as np
+import pytz
 
 HISTORY_DAYS = 30
 ACTUAL_TEMPERATURES_SERVICE = Service.objects.get(name='actual')
 
 
 def get_history_dates():
-    today = date.today()
+    today = get_local_date()
     ordinal_today = date.toordinal(today)
     ordinal_day = ordinal_today
     dates = []
@@ -20,7 +21,7 @@ def get_history_dates():
 
 
 def get_date(date_=None):
-    today = date.today()
+    today = get_local_date()
     if not date_:
         return today
     else:
@@ -77,7 +78,7 @@ def get_stats():
 
 
 def _get_historical_temps():
-    last_day = date.today()
+    last_day = get_local_date()
     first_day = date.fromordinal(date.toordinal(last_day) - HISTORY_DAYS)
     services = Service.objects.all()
     historical_temps = {}
@@ -91,3 +92,9 @@ def _get_historical_temps():
             historical_temps[service_name][i] = [x if x is not None else -300 for x in temps_per_day.get_temperatures()]
 
     return historical_temps
+
+
+def get_local_date():
+    utc_moment = datetime.utcnow().replace(tzinfo=pytz.utc)
+    local_time = utc_moment.astimezone(pytz.timezone('Poland'))
+    return local_time.date()
